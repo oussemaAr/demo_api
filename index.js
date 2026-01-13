@@ -31,7 +31,7 @@ app.get("/v1/recipes", async (req, res) => {
     const offset = (page - 1) * limit;
 
     const query =
-      "SELECT * FROM recipes ORDER BY scraped_at ASC LIMIT $1 OFFSET $2";
+      "SELECT * FROM recipes_data ORDER BY scraped_at ASC LIMIT $1 OFFSET $2";
     const result = await pool.query(query, [limit, offset]);
 
     res.json({
@@ -49,7 +49,7 @@ app.get("/v1/recipes", async (req, res) => {
 app.get("/v1/recipes/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const query = "SELECT * FROM recipes WHERE id = $1";
+    const query = "SELECT * FROM recipes_data WHERE id = $1";
     const result = await pool.query(query, [id]);
 
     if (result.rows.length === 0) {
@@ -70,7 +70,7 @@ app.get("/v1/category/:name", async (req, res) => {
     const { name } = req.params;
     // Case insensitive search
     const query =
-      "SELECT * FROM recipes WHERE LOWER(category) = LOWER($1) LIMIT 50";
+      "SELECT * FROM recipes_data WHERE LOWER(category) = LOWER($1) LIMIT 50";
     const result = await pool.query(query, [name]);
 
     res.json({ success: true, count: result.rows.length, data: result.rows });
