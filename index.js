@@ -31,7 +31,7 @@ app.get("/v1/recipes", async (req, res) => {
     const offset = (page - 1) * limit;
 
     const query =
-      "SELECT * FROM recipes ORDER BY scraped_at DESC LIMIT $1 OFFSET $2";
+      "SELECT * FROM recipes ORDER BY scraped_at ASC LIMIT $1 OFFSET $2";
     const result = await pool.query(query, [limit, offset]);
 
     res.json({
